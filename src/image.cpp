@@ -2,14 +2,25 @@
 
 namespace imgview {
 
-template <typename DTYPE>
-void Image<DTYPE>::reserve() {
-  assert(is_valid());
-  data_ = new DTYPE[width_*height_*channels_];
+Image::Image(const std::string filename) {
+  int width, height, channels;
+  stbi_set_flip_vertically_on_load(true);
+  uint8_t* data = stbi_load(filename.c_str(), &width, &height, &channels, 0);
+  if (!data) {
+    std::cerr << "Couldn't load the image: " << filename << "\n";
+  }
+  width_ = width;
+  height_ = height;
+  channels_ = channels;
+  data_ = data;
 }
 
-template <typename DTYPE>
-void Image<DTYPE>::update(DTYPE* data) {
+void Image::reserve() {
+  assert(is_valid());
+  data_ = new uint8_t[width_*height_*channels_];
+}
+
+void Image::update(uint8_t* data) {
   for(size_t y=0; y<height_; ++y) {
     for(size_t x=0; x<width_; ++x) {
       for(size_t c=0; c<3; ++c)
