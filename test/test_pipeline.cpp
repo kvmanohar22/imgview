@@ -10,15 +10,18 @@
 using namespace imgview;
 
 int main() {
-  // load image
+  // Create window
+  Mosaic* mosaic = new Mosaic();
+  Window* window = new Window(900, 600, "viewer", mosaic);
+
+  // Load image
   Image* image = new Image("../imgs/test.png");
 
   // Add some tesserae on mosaic
-  Mosaic* mosaic = new Mosaic();
-  mosaic->add(image, 0, 0, 1, 1);
+  mosaic->add(image, -1, 1, 1, 1);
 
-  // create window
-  Window* window = new Window(800, 600, "viewer", mosaic);
+  // Render
+  window->show();
 
   // do anything that you want
   usleep(100000000);

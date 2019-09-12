@@ -25,9 +25,7 @@ public:
       height_(height),
       channels_(channels),
       data_(data)
-  {
-    reserve();
-  }
+  {}
 
   Image(const std::string filename);
 
@@ -37,8 +35,8 @@ public:
   inline size_t height() const { return height_; }
   inline bool is_valid() const { return width_ != 0 && height_ != 0 && channels_ != 0; }
 
-  void reserve();
   void update(uint8_t* data);
+  const uint8_t* data() { return data_; }
 
 private:
   size_t width_;

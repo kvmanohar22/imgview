@@ -15,11 +15,6 @@ Image::Image(const std::string filename) {
   data_ = data;
 }
 
-void Image::reserve() {
-  assert(is_valid());
-  data_ = new uint8_t[width_*height_*channels_];
-}
-
 void Image::update(uint8_t* data) {
   for(size_t y=0; y<height_; ++y) {
     for(size_t x=0; x<width_; ++x) {

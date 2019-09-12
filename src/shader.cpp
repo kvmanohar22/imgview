@@ -15,10 +15,12 @@ Shader::Shader(
   f_stream << f_file.rdbuf();
 
   v_file.close();
-  f_file.close();      
+  f_file.close();
+  const std::string vs = v_stream.str();
+  const std::string fs = f_stream.str();
 
-  const char *v_code = v_stream.str().c_str();
-  const char *f_code = f_stream.str().c_str();
+  const char *v_code = vs.c_str();
+  const char *f_code = fs.c_str();
 
   int success;
   char info_log[512];
@@ -29,8 +31,8 @@ Shader::Shader(
   glCompileShader(v_shader);
   glGetShaderiv(v_shader, GL_COMPILE_STATUS, &success);
   if (!success) {
-   glGetShaderInfoLog(v_shader, 512, NULL, info_log);
-   std::cerr << "Couldn't compile the vertex shader: "
+    glGetShaderInfoLog(v_shader, 512, NULL, info_log);
+    std::cerr << "Couldn't compile the vertex shader: "
              << info_log
              << std::endl;
   }
@@ -41,8 +43,8 @@ Shader::Shader(
   glCompileShader(f_shader);
   glGetShaderiv(f_shader, GL_COMPILE_STATUS, &success);
   if (!success) {
-   glGetShaderInfoLog(f_shader, 512, NULL, info_log);
-   std::cerr << "Couldn't compile the fragment shader: "
+    glGetShaderInfoLog(f_shader, 512, NULL, info_log);
+    std::cerr << "Couldn't compile the fragment shader: "
              << info_log
              << std::endl;
   }
@@ -55,8 +57,8 @@ Shader::Shader(
 
   glGetProgramiv(id_, GL_LINK_STATUS, &success);
   if (!success) {
-   glGetProgramInfoLog(id_, 512, NULL, info_log);
-   std::cerr << "Couldn't link the shaders: "
+    glGetProgramInfoLog(id_, 512, NULL, info_log);
+    std::cerr << "Couldn't link the shaders: "
              << info_log
              << std::endl;  
   }
@@ -65,8 +67,8 @@ Shader::Shader(
 }
 
 Shader* Shader::use() {
-    glUseProgram(id_);
-    return this;
+  glUseProgram(id_);
+  return this;
 }
 
 void Shader::seti(

@@ -17,19 +17,31 @@ public:
       width_(width),
       height_(height),
       image_(image)
-  {}
+  {
+    generate();
+  }
+
+  void bind() const;
+  void generate();
 
   float         x_;
   float         y_;
   float         width_;
   float         height_;
   Image*        image_;
+
+  // Texture related
+  unsigned int id_;
+  GLuint internal_format_, image_format_;
+  GLuint wrap_s_, wrap_t_;
+  GLuint filter_min_, filter_max_;
+
 }; // class Tessera
 
 /*
  * Collection of multiple images that are to be displayed
  *
- * (0, 1)             (1, 1)
+ * (-1, 1)             (1, 1)
  *    +-----------------+
  *    |                 |
  *    .                 .
@@ -37,7 +49,7 @@ public:
  *    .                 .
  *    |                 |
  *    +-----------------+
- * (0, 0)            (1, 0)
+ * (-1, -1)            (1, -1)
  *
  */
 
@@ -54,7 +66,6 @@ public:
     float height  // along height
   );
 
-private:
   std::list<Tessera*>  tesserae_;
 }; // class Mosaic
 

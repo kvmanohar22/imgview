@@ -3,6 +3,8 @@
 
 #include "imgview/global.h"
 #include "imgview/mosaic.h"
+#include "imgview/renderer.h"
+#include "imgview/shader.h"
 
 #include <iostream>
 #include <thread>
@@ -24,6 +26,7 @@ public:
   }
 
   bool init();
+  bool show();
   bool render();
 
 private:
@@ -31,11 +34,12 @@ private:
   size_t      height_;
   std::string name_;
   Mosaic*     mosaic_;
+  Renderer*   renderer_;
+  Shader*     shader_;
 
   GLFWwindow* window_;
   GLFWwindow* shared_window_;
   std::thread render_thread_;
-
 }; // class Window
 
 } // namespace imgview

@@ -1,4 +1,5 @@
 #include "imgview/window.h"
+#include "glm/gtx/string_cast.hpp"
 
 namespace imgview {
 
@@ -12,17 +13,20 @@ bool Window::init() {
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
   glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
-
   window_ = glfwCreateWindow(1, 1, "", NULL, NULL);
   if (window_ == NULL) {
     std::cerr << "Failed to create GLFW window\n";
     glfwTerminate();
     return false;
   }
-
   glfwMakeContextCurrent(window_);
+  glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
   glfwSwapInterval(1);
   gl3wInit();
+  return true;
+}
+
+bool Window::show() {
   render_thread_ = std::thread(&Window::render, this);
   return true;
 }
@@ -35,9 +39,23 @@ bool Window::render() {
     glfwTerminate();
     return false;
   }
-
   glfwMakeContextCurrent(shared_window_);
   glfwSetWindowUserPointer(shared_window_, this);
+  glfwSetErrorCallback([](int error, const char* description) {
+    fprintf(stderr, "Error %d: %s\n", error, description);
+  });
+
+  glm::mat4 projection = glm::ortho(
+    0.0f, static_cast<GLfloat>(width_),
+    static_cast<GLfloat>(height_), 0.0f,
+    0.0f, 100.0f);
+
+  shader_ = new Shader("../shaders/shader.vs", "../shaders/shader.fs");
+  renderer_ = new Renderer(shader_);
+
+  shader_->use();
+  shader_->seti("image", 0);
+  shader_->setmat4("projection", projection);
 
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_MULTISAMPLE);
@@ -46,7 +64,12 @@ bool Window::render() {
   // render mosaic!
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
   while(!glfwWindowShouldClose(shared_window_)) {
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    std::list<Tessera*>::iterator itr=mosaic_->tesserae_.begin();
+    for(; itr!=mosaic_->tesserae_.end(); ++itr) {
+      renderer_->render(*itr);
+    }
 
     glfwSwapBuffers(shared_window_);
     glfwPollEvents();
