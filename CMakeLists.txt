@@ -24,6 +24,7 @@ list(APPEND SRCS
   src/mosaic.cpp
   src/window.cpp
   src/shader.cpp
+  src/renderer.cpp
 )
 
 add_library(imgview SHARED
