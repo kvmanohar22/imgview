@@ -35,6 +35,12 @@ cmake ..
 
 - Simple rendering
 
+```bash
+cd path/to/build
+make test_simple1
+./test_simple1
+```
+
 ```c++
 // Create (empty) mosaic and window
 Mosaic* mosaic = new Mosaic();
@@ -62,6 +68,12 @@ window->show();
 <p align="center"><img width="50%" height="50%" src="imgs/img1.png"/></p>
 
 - Multiple images
+
+```bash
+cd path/to/build
+make test_simple2
+./test_simple2
+```
 
 ```c++
 // Load an image
