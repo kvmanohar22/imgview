@@ -10,7 +10,7 @@
 #include <iostream>
 
 namespace imgview {
-
+  static constexpr double PI = 3.1415926535;
 }
 
 #endif

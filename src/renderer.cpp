@@ -6,13 +6,13 @@ namespace imgview {
 void Renderer::init() {
   float vertices[] = {
     // positions      // texture
-   -1.0f,  0.0f, 0.0f, 0.0f, 0.0f,
-    0.0f,  0.0f, 0.0f, 1.0f, 0.0f,
-   -1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
+    0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+    1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+    0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 
-    0.0f,  0.0f, 0.0f, 1.0f, 0.0f,
-    0.0f,  1.0f, 0.0f, 1.0f, 1.0f,
-   -1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
+    0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+    1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+    1.0f, 0.0f, 0.0f, 1.0f, 0.0f
   };
 
   unsigned int VBO;
@@ -31,15 +31,12 @@ void Renderer::init() {
 }
 
 void Renderer::render(Tessera* tessera) {
-  // Translate
-  float dx = tessera->x_ + 1.0f;
-  float dy = tessera->y_ - 1.0f;
-  // Scale
-  float sx = tessera->width_;
-  float sy = tessera->height_;
+  // update the tessera if it has changed
+  tessera->update();
 
   glm::mat4 model = glm::mat4(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1);
-  model = glm::translate(model, glm::vec3(dx, dy, 0.0f));
+  model = glm::translate(model, glm::vec3(tessera->x_, tessera->y_, 0.0f));
+  model = glm::scale(model, glm::vec3(tessera->height_, tessera->width_, 1.0f));
 
   shader_->use();
   shader_->setmat4("model", model);

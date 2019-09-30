@@ -19,9 +19,25 @@ void Tessera::generate() {
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap_t_);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter_min_);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter_max_);
-  glTexImage2D(GL_TEXTURE_2D, 0, internal_format_, image_->width(), image_->height(), 0, image_format_, GL_UNSIGNED_BYTE, data);
+  glTexImage2D(GL_TEXTURE_2D, 0, internal_format_,
+    image_->width(), image_->height(), 0,
+    image_format_, GL_UNSIGNED_BYTE, data);
   glGenerateMipmap(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Tessera::update() {
+  if (image_->updated()) {
+    // update the texture
+    const uint8_t* data = image_->data();
+    glBindTexture(GL_TEXTURE_2D, id_);
+    glTexImage2D(GL_TEXTURE_2D, 0, internal_format_,
+      image_->width(), image_->height(), 0,
+      image_format_, GL_UNSIGNED_BYTE, data);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    image_->set_update_false();
+  }
 }
 
 void Tessera::bind() const {

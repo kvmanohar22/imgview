@@ -23,6 +23,7 @@ public:
 
   void bind() const;
   void generate();
+  void update();
 
   float         x_;
   float         y_;

@@ -46,9 +46,9 @@ bool Window::render() {
   });
 
   glm::mat4 projection = glm::ortho(
-    0.0f, static_cast<GLfloat>(width_),
-    static_cast<GLfloat>(height_), 0.0f,
-    0.0f, 100.0f);
+    0.0f, static_cast<float>(width_),
+    static_cast<float>(height_), 0.0f,
+    -1.0f, 1.0f);
 
   shader_ = new Shader("../shaders/shader.vs", "../shaders/shader.fs");
   renderer_ = new Renderer(shader_);
