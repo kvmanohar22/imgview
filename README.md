@@ -1,7 +1,7 @@
 # ImgView
 Non-blocking image viewer written in C++ using OpenGL
 
-<p align="center"><img width="70%" height="70%" src="imgs/img2.png"/></p>
+<p align="center"><img width="50%" height="50%" src="imgs/img2.png"/></p>
 
 ## Requirements
 - OpenGL 3.3
@@ -48,10 +48,35 @@ const size_t start_x = 0;
 const size_t start_y = 0;
 const size_t width = w;
 const size_t height = h;
-mosaic->add_image(image, start_x, start_y, width, height);
+
+// image is internally converted to tesserae
+mosaic->add(image, start_x, start_y, width, height);
 
 // Render
 window->show();
 
 // do your stuff here. Rendering is in a separate thread
 ```
+... and the result
+
+<p align="center"><img width="50%" height="50%" src="imgs/img1.png"/></p>
+
+- Multiple images
+
+```c++
+// Load an image
+Image* image = new Image("/path/to/image");
+
+// Add four images
+mosaic->add(image, 0, 0, w/2, h/2);
+mosaic->add(image, w/2, h/2, w/2, h/2);
+mosaic->add(image, w/2, 0, w/2, h/2);
+mosaic->add(image, 0, h/2, w/2, h/2);
+
+// Render
+window->show();
+```
+... and the result
+
+<p align="center"><img width="50%" height="50%" src="imgs/img2.png"/></p>
+
