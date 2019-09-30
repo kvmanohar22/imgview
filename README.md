@@ -1,4 +1,7 @@
 # ImgView
+Non-blocking image viewer written in C++ using OpenGL
+
+<p align="center"><img width="70%" height="70%" src="imgs/img2.png"/></p>
 
 ## Requirements
 - OpenGL 3.3
@@ -11,13 +14,12 @@ Place gl3w headers (`gl3w.h`, `glcorearb.h`) under `include/imgview/ext/gl3w`, `
 
 
 ## Usage
+
+- Clone and build
 ```bash
 git clone git@github.com:kvmanohar22/imgview.git
 cd imgview
 mkdir build
 cd build
 cmake ..
-make test_pipeline
-./test_pipeline
 ```
-

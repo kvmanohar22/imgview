@@ -34,5 +34,8 @@ add_library(imgview SHARED
 )
 target_link_libraries(imgview ${LIBS})
 
-add_executable(test_pipeline test/test_pipeline.cpp)
-target_link_libraries(test_pipeline imgview)
+add_executable(test_simple1 test/test_simple1.cpp)
+target_link_libraries(test_simple1 imgview)
+
+add_executable(test_simple2 test/test_simple2.cpp)
+target_link_libraries(test_simple2 imgview)
